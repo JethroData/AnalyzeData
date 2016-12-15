@@ -2,7 +2,7 @@
 
 AnalyzeData reads a sample of the input data that is going to be loaded into Jethro
 
-#Prerequisites:
+###Prerequisites:
 Python 2.6 or higher installed.
 Python tabulate package (not required if report is issued in csv mode. If not installed, report will automatically be set to csv mode).
 To install tabulate:
