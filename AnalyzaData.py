@@ -25,7 +25,7 @@ class Column:
     
     category_regex = [['Url', 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'],
                       ['Uuid', '[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}'],
-                      ['Phone Number', '(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4})'],
+                      ['Phone Number', '^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$'],
                       ['Email', '^[\w\.\+\-]+\@([\w]+\.)+[a-z]{2,3}$'],
                       ['IP Address' , '^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$'],
                       ['SQL', '(?i)^(SELECT|UPDATE|INSERT)[\s\S]+?\;?\s*?$']
@@ -428,9 +428,9 @@ def generateSchema(table_name, delimiter, with_header):
     
 def printUsage():
     sys.stderr.write('AnalyzeData.py [-i <rows to read>] [-d <delimiter>] [-q <quote char>] [-n] [-c] [-g <table name>] [<input file>]\n')
-    sys.stderr.write('    -i: Number of rows to read from the input. Default=unlimited\n')
-    sys.stderr.write('    -d: The input data delimiter. Default=','\n')
-    sys.stderr.write('    -q: The input data quote character. ,Default=" (double quotes)\n')
+    sys.stderr.write('    -i: Number of rows to read from the input. Default=unlimited.\n')
+    sys.stderr.write('    -d: The input data delimiter. Default="," (comma).\n')
+    sys.stderr.write('    -q: The input data quote character. This allows a delimiter character inside quotes as part of the data. Default=" (double quotes).\n')
     sys.stderr.write('    -n: If specified, treats the first row as headers row which contains the column names.\n')
     sys.stderr.write('    -c: CSV formatted output. Write the output report as a tab delimited file instead of a formatted table.\n')
     sys.stderr.write('    -g: Generate a create table script and a description file using the given table name.\n')
