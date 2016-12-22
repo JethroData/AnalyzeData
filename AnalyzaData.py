@@ -195,7 +195,8 @@ class Column:
             
     def isBoolean(self):
         if self.type != 'TIMESTAMP':
-            if len(self.excludeList(self.getValueList(), Column.boolean_strings, False)) == 0:
+            values = self.getValueList()
+            if len(values) > 0 and len(self.excludeList(values, Column.boolean_strings, False)) == 0:
                 return True
         return False
         
