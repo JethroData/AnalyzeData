@@ -51,7 +51,9 @@ class Column:
         self.max_int_value = -sys.maxint-1
         self.max_float_size = 0
     
-        
+    def allInt(self, value_list):
+        return all(self.isInt(t) for t in value_list)
+    
     def isInt(self, value):
         try:
             int(value)
@@ -251,6 +253,14 @@ class Column:
             if perc > self.perc:
                 self.perc = perc
                 self.type = 'TIMESTAMP'
+            else:
+                if self.allInt(self.timestamp_list):
+                    for s in self.timestamp_list:
+                        self.addDistinct(self.int_list, s)
+                        self.intcount += 1
+                    self.timestamp_list = []
+                    self.timestampcount = 0
+                    self.perc = (self.intcount + self.floatcount) * 1.0 / self.rowcount
                 
         if self.perc == 0.0 or len(self.string_list) > 5:
             self.type = 'STRING'
@@ -403,7 +413,8 @@ def generateSchema(table_name, delimiter, with_header):
         ctype = c.type
         exceptionList = c.getExceptionList()
         if len(exceptionList) > 1:
-            ctype = 'STRING'
+            if ctype != 'TIMESTAMP' or not c.allInt(exceptionList):
+                ctype = 'STRING'
             
         ddlfile.write(c.name + ' ' + ctype)
         descfile.write(c.name)
