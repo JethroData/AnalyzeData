@@ -284,7 +284,7 @@ class Column:
     
     def getExceptionList(self):
         if self.type == 'STRING':
-            return [e for e in self.string_list if e in Column.null_strings]
+            return [e for e in self.string_list if e.upper() in Column.null_strings]
         elif self.type == 'TIMESTAMP':
             return self.int_list + self.string_list
         else:
